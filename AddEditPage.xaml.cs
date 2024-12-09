@@ -24,5 +24,20 @@ namespace Lapitskaya_GlazkiSave
         {
             InitializeComponent();
         }
+
+        private void ChangePictureBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

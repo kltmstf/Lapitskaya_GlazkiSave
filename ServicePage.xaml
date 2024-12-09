@@ -97,7 +97,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="LeftDirButton" Content="&lt;" Width="20" Height="20"
+            <Button Name="LeftDirButton" Content="&lt;" Width="25" Height="25"
                                     Click="LeftDirButton_Click"></Button>
             <ListBox FontSize="20" Name="PageListBox" MouseUp="PageListBox_MouseUp">
                 <ListBox.ItemsPanel>
@@ -106,7 +106,7 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
-            <Button Name="RightDirButton" Content="&gt;" Width="20" Height="20"
+            <Button Name="RightDirButton" Content="&gt;" Width="25" Height="25"
                     Click="RightDirButton_Click"></Button>
         </StackPanel>
     </Grid>
