@@ -12,7 +12,6 @@ namespace Lapitskaya_GlazkiSave
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     public partial class Agent
     {
         public int ID { get; set; }
@@ -24,16 +23,16 @@ namespace Lapitskaya_GlazkiSave
             get
             {
                 //if (_agentTypeText != null)
-                    //return _agentTypeText;
+                //return _agentTypeText;
 
                 var agentType = Lapitskaya_GlazkiSaveEntities.GetContext().AgentType.FirstOrDefault(p => p.ID == AgentTypeID);
                 return agentType.Title;
             }
             set
             {
-                
+
             }
-        }
+}
 
         public string Title { get; set; }
         public string Email { get; set; }

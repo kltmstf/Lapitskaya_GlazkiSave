@@ -65,10 +65,10 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Image Width="200" Grid.Column="0" Grid.RowSpan="4"
+                        <Image Width="150" Grid.Column="0" Grid.RowSpan="4"
                                Stretch="UniformToFill" HorizontalAlignment="Center">
                             <Image.Source>
-                                <Binding Path="MainImagePath">
+                                <Binding Path="Logo">
                                     <Binding.TargetNullValue>
                                         <ImageSource>
                                             images/picture.png
@@ -84,16 +84,30 @@
                             <TextBlock Text="{Binding Title}" FontSize="20" TextWrapping="Wrap" Margin="5"></TextBlock>
                         </StackPanel>
                         
-                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" FontSize="20"></TextBlock>
+                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" FontSize="15"></TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16"></TextBlock>
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
-                            <TextBlock Text="Приоритетность: " FontSize="20" Margin="5"></TextBlock>
-                            <TextBlock Text="{Binding Priority}" Margin="5" FontSize="20"></TextBlock>
+                            <TextBlock Text="Приоритетность: " FontSize="15" Margin="5"></TextBlock>
+                            <TextBlock Text="{Binding Priority}" Margin="5" FontSize="15"></TextBlock>
                         </StackPanel>
+
+                        
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="LeftDirButton" Content="&lt;" Width="20" Height="20"
+                                    Click="LeftDirButton_Click"></Button>
+            <ListBox FontSize="20" Name="PageListBox" MouseUp="PageListBox_MouseUp">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button Name="RightDirButton" Content="&gt;" Width="20" Height="20"
+                    Click="RightDirButton_Click"></Button>
+        </StackPanel>
     </Grid>
 </Page>

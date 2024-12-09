@@ -20,6 +20,12 @@ namespace Lapitskaya_GlazkiSave
     /// </summary>
     public partial class ServicePage : Page
     {
+        int CountRecords;
+        int CountPage;
+        int CurrentPage = 0;
+        List<Agent> CurrentPageList = new List<Agent>();
+        List<Agent> TableList;
+        
         public ServicePage()
         {
             InitializeComponent();
@@ -28,6 +34,91 @@ namespace Lapitskaya_GlazkiSave
 
             ComboSort.SelectedIndex = 0;
             ComboType.SelectedIndex = 0;
+            UpdateAgents();
+        }
+
+        private void ChangePage(int direction, int? selectedPage)
+        {
+            CurrentPageList.Clear();
+            CountRecords = TableList.Count;
+
+            if (CountRecords % 10 > 0)
+                CountPage = CountRecords / 10 + 1;
+            else
+                CountPage = CountRecords / 10;
+
+            Boolean Ifupdate = true;
+
+            int min;
+            if (selectedPage.HasValue)
+            {
+                if (selectedPage >= 0 && selectedPage <= CountPage)
+                {
+                    CurrentPage = (int)selectedPage;
+                    min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                    for (int i = CurrentPage * 10; i < min; i++)
+                        CurrentPageList.Add(TableList[i]);
+                }
+            }
+            else
+            {
+                switch (direction)
+                {
+                    case 1:
+                        if (CurrentPage > 0)
+                        {
+                            CurrentPage--;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                                CurrentPageList.Add(TableList[i]);
+                        }
+                        else
+                        {
+                            Ifupdate = false;
+                        }
+                        break;
+
+
+                    case 2:
+                        if (CurrentPage < CountPage - 1)
+                        {
+                            CurrentPage++;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                            Ifupdate = false;
+                        break;
+                }
+            }
+
+            if (Ifupdate)
+            {
+                PageListBox.Items.Clear();
+
+                for (int i = 1; i <= CountPage; i++)
+                    PageListBox.Items.Add(i);
+
+                PageListBox.SelectedIndex = CurrentPage;
+
+                
+
+                AgentListView.ItemsSource = CurrentPageList;
+                AgentListView.Items.Refresh();
+            }
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Lapitskaya_GlazkiSaveEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                AgentListView.ItemsSource = Lapitskaya_GlazkiSaveEntities.GetContext().Agent.ToList();
+            }
+            UpdateAgents();
         }
 
         private void UpdateAgents()
@@ -56,19 +147,26 @@ namespace Lapitskaya_GlazkiSave
 
             //поиск по наименованию, телефону и email????
             currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) || 
-            CleanPhoneNumber(p.Phone).Contains(CleanPhoneNumber(TBoxSearch.Text))).ToList();
+            CleanPhoneNumber(p.Phone).Contains(CleanPhoneNumber(TBoxSearch.Text)) ||
+            p.Email.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
             //отображение фильтра и поиска
             AgentListView.ItemsSource = currentAgent.ToList();
 
             //сортировка по наименованию, скидке????, приоритету -- ComboSort
             if (ComboSort.SelectedIndex == 1)
-                AgentListView.ItemsSource = currentAgent.OrderBy(p => p.Title).ToList();
+                currentAgent = currentAgent.OrderBy(p => p.Title).ToList();
             if (ComboSort.SelectedIndex == 2)
-                AgentListView.ItemsSource = currentAgent.OrderByDescending(p => p.Title).ToList();
+                currentAgent = currentAgent.OrderByDescending(p => p.Title).ToList();
             if (ComboSort.SelectedIndex == 5)
-                AgentListView.ItemsSource = currentAgent.OrderBy(p => p.Priority).ToList();
+                currentAgent = currentAgent.OrderBy(p => p.Priority).ToList();
             if (ComboSort.SelectedIndex == 6)
-                AgentListView.ItemsSource = currentAgent.OrderByDescending(p => p.Priority).ToList();
+                currentAgent = currentAgent.OrderByDescending(p => p.Priority).ToList();
+
+            AgentListView.ItemsSource = currentAgent;
+            TableList = currentAgent;
+
+            ChangePage(0, 0);
+
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -84,6 +182,21 @@ namespace Lapitskaya_GlazkiSave
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateAgents();
+        }
+
+        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(1, null);
+        }
+
+        private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString())-1);
+        }
+
+        private void RightDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(2, null);
         }
     }
 }

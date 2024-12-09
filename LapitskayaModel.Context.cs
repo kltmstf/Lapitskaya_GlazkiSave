@@ -15,9 +15,7 @@ namespace Lapitskaya_GlazkiSave
     
     public partial class Lapitskaya_GlazkiSaveEntities : DbContext
     {
-        
         private static Lapitskaya_GlazkiSaveEntities _context;
-
         public static Lapitskaya_GlazkiSaveEntities GetContext()
         {
             if (_context == null)
@@ -25,6 +23,7 @@ namespace Lapitskaya_GlazkiSave
 
             return _context;
         }
+
         public Lapitskaya_GlazkiSaveEntities()
             : base("name=Lapitskaya_GlazkiSaveEntities")
         {

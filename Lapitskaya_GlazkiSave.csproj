@@ -321,6 +321,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="agents\picture.png" />
+    <Resource Include="agents\Глазки-save.ico" />
+    <Resource Include="agents\Глазки-save.png" />
     <Content Include="LapitskayaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LapitskayaModel.edmx</DependentUpon>
