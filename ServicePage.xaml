@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Lapitskaya_GlazkiSave"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ServicePage" FontFamily="Century Gothic">
+      Title="ServicePage" FontFamily="Century Gothic" IsVisibleChanged="Page_IsVisibleChanged">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
             <StackPanel Margin="10" Orientation="Horizontal">
                 
                 <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged"
@@ -34,7 +34,7 @@
                     <TextBlock>приоритет по убыванию</TextBlock>
                 </ComboBox>
             </StackPanel>
-
+            
             <StackPanel Orientation="Horizontal" Margin="10">
                 <ComboBox Name="ComboType" SelectionChanged="ComboType_SelectionChanged"
                           FontSize="15" Width="150">
@@ -49,7 +49,8 @@
             </StackPanel>
         </WrapPanel>
         
-      
+          <Button Content="добавить агента" Name="AddBtn" Click="AddBtn_Click"
+                        Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"></Button>
         <ListView Name ="AgentListView" Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -63,9 +64,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Image Width="150" Grid.Column="0" Grid.RowSpan="4"
+                        <Image Width="200" Grid.Column="0" Grid.RowSpan="4"
                                Stretch="UniformToFill" HorizontalAlignment="Center">
                             <Image.Source>
                                 <Binding Path="Logo">
@@ -77,7 +79,7 @@
                                 </Binding>
                             </Image.Source>
                         </Image>
-
+                    
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
                             <TextBlock Text="{Binding AgentTypeText}" FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text=" | " FontSize="20" Margin="5"></TextBlock>
@@ -86,11 +88,13 @@
                         
                         <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" FontSize="15"></TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16"></TextBlock>
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
-                            <TextBlock Text="Приоритетность: " FontSize="15" Margin="5"></TextBlock>
-                            <TextBlock Text="{Binding Priority}" Margin="5" FontSize="15"></TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                            <TextBlock Text="Приоритетность: " FontSize="15" ></TextBlock>
+                            <TextBlock Text="{Binding Priority}" FontSize="15"></TextBlock>
                         </StackPanel>
-
+                        <Button Content="редактировать" Grid.Column="1" Grid.Row="4"
+                                HorizontalAlignment="Left" Margin="5"
+                                Name="EditBtn" Click="EditBtn_Click"></Button>
                         
                     </Grid>
                 </DataTemplate>

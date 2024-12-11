@@ -324,6 +324,8 @@
     <Resource Include="agents\picture.png" />
     <Resource Include="agents\Глазки-save.ico" />
     <Resource Include="agents\Глазки-save.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="LapitskayaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LapitskayaModel.edmx</DependentUpon>

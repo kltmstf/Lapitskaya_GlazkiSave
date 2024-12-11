@@ -198,5 +198,17 @@ namespace Lapitskaya_GlazkiSave
         {
             ChangePage(2, null);
         }
+
+        private void AddBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+        }
+
+        
     }
 }
