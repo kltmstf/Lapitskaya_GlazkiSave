@@ -15,9 +15,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
             <StackPanel Margin="10" Orientation="Horizontal">
-                
+                <TextBlock Text="поиск по наименованию" FontSize="15"></TextBlock>
                 <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged"
                          Width="250" FontSize="20"></TextBox>
             </StackPanel>
@@ -49,19 +49,19 @@
             </StackPanel>
         </WrapPanel>
         
-          <Button Content="добавить агента" Name="AddBtn" Click="AddBtn_Click"
-                        Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"></Button>
-        <ListView Name ="AgentListView" Grid.Row="2">
+          
+        <ListView Name ="AgentListView" Grid.Row="2" SelectionChanged="AgentListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Background="{Binding FonStyle}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1500"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
-                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -79,28 +79,48 @@
                                 </Binding>
                             </Image.Source>
                         </Image>
-                    
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                            
                             <TextBlock Text="{Binding AgentTypeText}" FontSize="20" Margin="5"></TextBlock>
-                            <TextBlock Text=" | " FontSize="20" Margin="5"></TextBlock>
+                            <TextBlock Text="|" FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text="{Binding Title}" FontSize="20" TextWrapping="Wrap" Margin="5"></TextBlock>
+                            
+                        </StackPanel>
+
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="продажи за год:" FontSize="15"></TextBlock>
+                            <TextBlock Text="{Binding Prod}" FontSize="15"></TextBlock>
                         </StackPanel>
                         
-                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" FontSize="15"></TextBlock>
+                        <TextBlock Text="{Binding Phone}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="15"></TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16"></TextBlock>
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left">
                             <TextBlock Text="Приоритетность: " FontSize="15" ></TextBlock>
                             <TextBlock Text="{Binding Priority}" FontSize="15"></TextBlock>
                         </StackPanel>
-                        <Button Content="редактировать" Grid.Column="1" Grid.Row="4"
-                                HorizontalAlignment="Left" Margin="5"
-                                Name="EditBtn" Click="EditBtn_Click"></Button>
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="4">
+                            <TextBlock Text="Скидка" FontSize="20"></TextBlock>
+                            <TextBlock Text="{Binding Discount, StringFormat={}{0}%}" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+                            
+                        </StackPanel>
+                        <Button Content="редактировать" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right"
+                                 Margin="5" Name="EditBtn" Click="EditBtn_Click"></Button>
                         
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="3">
+            <Button Content="добавить агента" Name="AddBtn" Click="AddBtn_Click"
+                        VerticalAlignment="Top"></Button>
+            <Button Content="изменить приоритет на ..." Name="EditPriorityBtn" Click="EditPriorityBtn_Click"
+                    Visibility="Hidden" Width="270" VerticalAlignment="Stretch"></Button>
+        </StackPanel>
+        
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            
             <Button Name="LeftDirButton" Content="&lt;" Width="25" Height="25"
                                     Click="LeftDirButton_Click"></Button>
             <ListBox FontSize="20" Name="PageListBox" MouseUp="PageListBox_MouseUp">
@@ -112,6 +132,7 @@
             </ListBox>
             <Button Name="RightDirButton" Content="&gt;" Width="25" Height="25"
                     Click="RightDirButton_Click"></Button>
+            
         </StackPanel>
     </Grid>
 </Page>

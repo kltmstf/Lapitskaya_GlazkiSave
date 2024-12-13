@@ -19,7 +19,14 @@ namespace Lapitskaya_GlazkiSave
         public int ProductID { get; set; }
         public System.DateTime SaleDate { get; set; }
         public int ProductCount { get; set; }
-    
+        public decimal Stoimost
+        {
+            get
+            {
+                 return Product.MinCostForAgent * ProductCount;
+            }
+        }
+        public virtual Agent Agent { get; set; }
         public virtual Product Product { get; set; }
     }
 }

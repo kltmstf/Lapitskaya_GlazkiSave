@@ -157,6 +157,10 @@ namespace Lapitskaya_GlazkiSave
                 currentAgent = currentAgent.OrderBy(p => p.Title).ToList();
             if (ComboSort.SelectedIndex == 2)
                 currentAgent = currentAgent.OrderByDescending(p => p.Title).ToList();
+            if (ComboSort.SelectedIndex == 3)
+                currentAgent = currentAgent.OrderByDescending(p => p.Discount).ToList();
+            if (ComboSort.SelectedIndex == 4)
+                currentAgent = currentAgent.OrderByDescending(p => p.Discount).ToList();
             if (ComboSort.SelectedIndex == 5)
                 currentAgent = currentAgent.OrderBy(p => p.Priority).ToList();
             if (ComboSort.SelectedIndex == 6)
@@ -209,6 +213,42 @@ namespace Lapitskaya_GlazkiSave
             Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
         }
 
-        
+        private void EditPriorityBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int MaxPriority = 0;
+            foreach (Agent agent in AgentListView.SelectedItems)
+            {
+                if (agent.Priority > MaxPriority)
+                    MaxPriority = agent.Priority;
+            }
+            SetWindow myWindow = new SetWindow(MaxPriority);
+            myWindow.ShowDialog();
+            if (string.IsNullOrEmpty(myWindow.TBPriority.Text))
+                MessageBox.Show("изменений не произошло");
+            else
+            {
+                int newPriority = Convert.ToInt32(myWindow.TBPriority.Text);
+                foreach (Agent agent in AgentListView.SelectedItems)
+                    agent.Priority = newPriority;
+                try
+                {
+                    Lapitskaya_GlazkiSaveEntities.GetContext().SaveChanges();
+                    MessageBox.Show("информация сохранена");
+                    UpdateAgents();
+                }
+                catch (Exception ex)
+                { MessageBox.Show(ex.Message); }
+            }
+                
+
+        }
+
+        private void AgentListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AgentListView.SelectedItems.Count > 1) 
+                EditPriorityBtn.Visibility = Visibility.Visible;
+            else 
+                EditPriorityBtn.Visibility = Visibility.Hidden;
+        }
     }
 }

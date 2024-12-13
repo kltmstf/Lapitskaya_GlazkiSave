@@ -11,34 +11,49 @@ namespace Lapitskaya_GlazkiSave
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    
+    using System.Windows.Media;
+
     public partial class Agent
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Agent()
+        {
+            this.AgentPriorityHistory = new HashSet<AgentPriorityHistory>();
+            this.ProductSale = new HashSet<ProductSale>();
+            this.Shop = new HashSet<Shop>();
+        }
+        public decimal Prod
+        {
+            get
+            {
+                decimal p = 0; foreach (ProductSale sales in ProductSale)
+                    p = p + sales.Stoimost; return p;
+            }
+        }
+        public int Discount
+        {
+            get
+            {
+                decimal saleCount = this.Prod;
+                if (saleCount > 0 && saleCount < 10000) return 0;
+                if (saleCount > 10000 && saleCount < 50000) return 5;
+                if (saleCount > 50000 && saleCount < 150000) return 10;
+                if (saleCount > 150000 && saleCount < 500000) return 20;
+                if (saleCount > 500000) return 25;
+                else return 0;
+
+            }
+        }
         public int ID { get; set; }
         public int AgentTypeID { get; set; }
-        private string _agentTypeText;
         public string AgentTypeText
         {
             get
             {
-                if (_agentTypeText != null)
-                    return _agentTypeText;
-
-                var agentType = Lapitskaya_GlazkiSaveEntities.GetContext().AgentType.FirstOrDefault(p => p.ID == this.AgentTypeID);
-                _agentTypeText = agentType?.Title;
-                return _agentTypeText;
-            }
-            set
-            {
-                var agentType = Lapitskaya_GlazkiSaveEntities.GetContext().AgentType.FirstOrDefault(p => p.Title == value);
-                if (agentType != null)
-                {
-                    this.AgentTypeID = agentType.ID;
-                    _agentTypeText = value;
-                }
+                return AgentType.Title;
             }
         }
+
 
         public string Title { get; set; }
         public string Email { get; set; }
@@ -49,5 +64,21 @@ namespace Lapitskaya_GlazkiSave
         public string DirectorName { get; set; }
         public string INN { get; set; }
         public string KPP { get; set; }
+
+        public SolidColorBrush FonStyle
+        {
+            get
+            {
+                if (Prod > 500000) return (SolidColorBrush)new BrushConverter().ConvertFromString("LightGreen");
+                else return (SolidColorBrush)new BrushConverter().ConvertFromString("White");
+            }
+        }
+        public virtual AgentType AgentType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AgentPriorityHistory> AgentPriorityHistory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductSale> ProductSale { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Shop> Shop { get; set; }
     }
 }

@@ -68,62 +68,65 @@
       <DependentUpon>AddEditPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Agent.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="AgentPriorityHistory.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="AgentType.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LapitskayaModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LapitskayaModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LapitskayaModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LapitskayaModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LapitskayaModel.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Manager.cs" />
     <Compile Include="Material.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="MaterialCountHistory.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="MaterialType.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductCostHistory.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductMaterial.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductSale.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductType.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ServicePage.xaml.cs">
       <DependentUpon>ServicePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SetWindow.xaml.cs">
+      <DependentUpon>SetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shop.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Supplier.cs">
-      <DependentUpon>LapitskayaModel.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Page Include="AddEditPage.xaml">
       <SubType>Designer</SubType>
@@ -142,6 +145,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ServicePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,12 +171,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="LapitskayaModel.edmx">
+    <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LapitskayaModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="LapitskayaModel.edmx.diagram">
-      <DependentUpon>LapitskayaModel.edmx</DependentUpon>
+    <None Include="Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -326,15 +333,15 @@
     <Resource Include="agents\Глазки-save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LapitskayaModel.Context.tt">
+    <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LapitskayaModel.edmx</DependentUpon>
-      <LastGenOutput>LapitskayaModel.Context.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="LapitskayaModel.tt">
+    <Content Include="Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LapitskayaModel.edmx</DependentUpon>
-      <LastGenOutput>LapitskayaModel.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

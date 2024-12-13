@@ -21,22 +21,22 @@ namespace Lapitskaya_GlazkiSave
     /// </summary>
     public partial class AddEditPage : Page
     {
-        private Agent currentAgent = new Agent();
+        private Agent _currentAgent = new Agent();
         public AddEditPage(Agent SelectedAgent)
         {
             InitializeComponent();
-            if (SelectedAgent != null) 
-                currentAgent = SelectedAgent;
+            if (SelectedAgent != null)
+                _currentAgent = SelectedAgent;
 
-            DataContext = currentAgent;
+            DataContext = _currentAgent;
         }
 
         private void ChangePictureBtn_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog myOpenFileDialog = new OpenFileDialog();
-            if(myOpenFileDialog.ShowDialog() == true)
+            if (myOpenFileDialog.ShowDialog() == true)
             {
-                currentAgent.Logo = myOpenFileDialog.FileName;
+                _currentAgent.Logo = myOpenFileDialog.FileName;
                 LogoImage.Source = new BitmapImage(new Uri(myOpenFileDialog.FileName));
             }
         }
@@ -44,32 +44,32 @@ namespace Lapitskaya_GlazkiSave
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(currentAgent.Title))
+            if (string.IsNullOrWhiteSpace(_currentAgent.Title))
                 errors.AppendLine("укажите наименование агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.Address))
+            if (string.IsNullOrWhiteSpace(_currentAgent.Address))
                 errors.AppendLine("укажите адрес агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.DirectorName))
+            if (string.IsNullOrWhiteSpace(_currentAgent.DirectorName))
                 errors.AppendLine("укажите ФИО директора");
             if (ComboType.SelectedItem == null)
                 errors.AppendLine("укажите тип агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.Priority.ToString()))
+            if (string.IsNullOrWhiteSpace(_currentAgent.Priority.ToString()))
                 errors.AppendLine("укажите приоритет агента");
-            if (currentAgent.Priority <= 0)
+            if (_currentAgent.Priority <= 0)
                 errors.AppendLine("укажите положительный приоритет агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.INN))
+            if (string.IsNullOrWhiteSpace(_currentAgent.INN))
                 errors.AppendLine("укажите ИНН агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.KPP))
+            if (string.IsNullOrWhiteSpace(_currentAgent.KPP))
                 errors.AppendLine("укажите КПП агента");
-            if (string.IsNullOrWhiteSpace(currentAgent.Phone))
+            if (string.IsNullOrWhiteSpace(_currentAgent.Phone))
                 errors.AppendLine("укажите телефон агента");
             else
             {
-                string ph = currentAgent.Phone.Replace("(", "").Replace("-", "").Replace("+", "");
+                string ph = _currentAgent.Phone.Replace("(", "").Replace("-", "").Replace("+", "");
                 if (((ph[1] == '9' || ph[1] == '4' || ph[1] == '8') && ph.Length != 11)
                     || (ph[1] == '3' && ph.Length != 12))
                     errors.AppendLine("укажите правильно телефон агента");
             }
-            if (string.IsNullOrWhiteSpace(currentAgent.Email))
+            if (string.IsNullOrWhiteSpace(_currentAgent.Email))
                 errors.AppendLine("укажите почту агента");
             if (errors.Length > 0)
             {
@@ -77,8 +77,8 @@ namespace Lapitskaya_GlazkiSave
                 return;
             }
 
-            if (currentAgent.ID == 0)
-                Lapitskaya_GlazkiSaveEntities.GetContext().Agent.Add(currentAgent);
+            if (_currentAgent.ID == 0)
+                Lapitskaya_GlazkiSaveEntities.GetContext().Agent.Add(_currentAgent);
 
             try
             {
@@ -86,8 +86,8 @@ namespace Lapitskaya_GlazkiSave
                 MessageBox.Show("информация сохранена");
                 Manager.MainFrame.GoBack();
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message.ToString());
             }
         }
@@ -102,7 +102,7 @@ namespace Lapitskaya_GlazkiSave
             if (currentAgentProductSale.Count != 0)
                 MessageBox.Show("невозмодно выполнить удаление, так как у агента есть товар на продажу");
 
-            else 
+            else
                 if (MessageBox.Show("вы точно хотите выполнить удаление?", "внимание!",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
@@ -111,9 +111,9 @@ namespace Lapitskaya_GlazkiSave
                     Lapitskaya_GlazkiSaveEntities.GetContext().Agent.Remove(currentAgent);
                     Lapitskaya_GlazkiSaveEntities.GetContext().SaveChanges();
                     Manager.MainFrame.GoBack();
-                    
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }

@@ -1,0 +1,16 @@
+﻿<Window x:Class="Lapitskaya_GlazkiSave.SetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lapitskaya_GlazkiSave"
+        mc:Ignorable="d"
+        Title="SetWindow" Height="200" Width="300" >
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock Text="изменить приоритет" FontSize="15"></TextBlock>
+            <TextBox Name="TBPriority" ></TextBox>
+            <Button Name="Change" Click="Change_Click" Content="изменить" FontSize="15"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

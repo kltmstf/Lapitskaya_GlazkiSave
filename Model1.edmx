@@ -148,6 +148,30 @@
           <Property Name="QualityRating" Type="int" />
           <Property Name="SupplierType" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <Association Name="FK_Agent_AgentType">
+          <End Role="AgentType" Type="Self.AgentType" Multiplicity="1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentPriorityHistory_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="AgentPriorityHistory" Type="Self.AgentPriorityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentPriorityHistory">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Material_MaterialType">
           <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="1" />
           <End Role="Material" Type="Self.Material" Multiplicity="*" />
@@ -244,6 +268,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductSale_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductSale_Product">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
@@ -253,6 +289,18 @@
             </Principal>
             <Dependent Role="ProductSale">
               <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shop_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="Shop" Type="Self.Shop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shop">
+              <PropertyRef Name="AgentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -271,6 +319,14 @@
           <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Agent_AgentType" Association="Self.FK_Agent_AgentType">
+            <End Role="AgentType" EntitySet="AgentType" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentPriorityHistory_Agent" Association="Self.FK_AgentPriorityHistory_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentPriorityHistory" EntitySet="AgentPriorityHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Material_MaterialType" Association="Self.FK_Material_MaterialType">
             <End Role="MaterialType" EntitySet="MaterialType" />
             <End Role="Material" EntitySet="Material" />
@@ -303,9 +359,17 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductMaterial" EntitySet="ProductMaterial" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Agent" Association="Self.FK_ProductSale_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shop_Agent" Association="Self.FK_Shop_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Shop" EntitySet="Shop" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -328,6 +392,10 @@
           <Property Name="DirectorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="INN" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="KPP" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AgentType" Relationship="Self.FK_Agent_AgentType" FromRole="Agent" ToRole="AgentType" />
+          <NavigationProperty Name="AgentPriorityHistory" Relationship="Self.FK_AgentPriorityHistory_Agent" FromRole="Agent" ToRole="AgentPriorityHistory" />
+          <NavigationProperty Name="ProductSale" Relationship="Self.FK_ProductSale_Agent" FromRole="Agent" ToRole="ProductSale" />
+          <NavigationProperty Name="Shop" Relationship="Self.FK_Shop_Agent" FromRole="Agent" ToRole="Shop" />
         </EntityType>
         <EntityType Name="AgentPriorityHistory">
           <Key>
@@ -337,6 +405,7 @@
           <Property Name="AgentID" Type="Int32" Nullable="false" />
           <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PriorityValue" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_AgentPriorityHistory_Agent" FromRole="AgentPriorityHistory" ToRole="Agent" />
         </EntityType>
         <EntityType Name="AgentType">
           <Key>
@@ -345,6 +414,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_Agent_AgentType" FromRole="AgentType" ToRole="Agent" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -432,6 +502,7 @@
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ProductCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_ProductSale_Agent" FromRole="ProductSale" ToRole="Agent" />
           <NavigationProperty Name="Product" Relationship="Self.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductType">
@@ -451,6 +522,7 @@
           <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="AgentID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_Shop_Agent" FromRole="Shop" ToRole="Agent" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -464,6 +536,54 @@
           <Property Name="SupplierType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Material" Relationship="Self.MaterialSupplier" FromRole="Supplier" ToRole="Material" />
         </EntityType>
+        <Association Name="FK_Agent_AgentType">
+          <End Role="AgentType" Type="Self.AgentType" Multiplicity="1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentPriorityHistory_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="AgentPriorityHistory" Type="Self.AgentPriorityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentPriorityHistory">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSale_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shop_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="Shop" Type="Self.Shop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shop">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Material_MaterialType">
           <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="1" />
           <End Role="Material" Type="Self.Material" Multiplicity="*" />
@@ -566,6 +686,22 @@
           <EntitySet Name="ProductType" EntityType="Self.ProductType" />
           <EntitySet Name="Shop" EntityType="Self.Shop" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" />
+          <AssociationSet Name="FK_Agent_AgentType" Association="Self.FK_Agent_AgentType">
+            <End Role="AgentType" EntitySet="AgentType" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentPriorityHistory_Agent" Association="Self.FK_AgentPriorityHistory_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentPriorityHistory" EntitySet="AgentPriorityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Agent" Association="Self.FK_ProductSale_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shop_Agent" Association="Self.FK_Shop_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Shop" EntitySet="Shop" />
+          </AssociationSet>
           <AssociationSet Name="FK_Material_MaterialType" Association="Self.FK_Material_MaterialType">
             <End Role="MaterialType" EntitySet="MaterialType" />
             <End Role="Material" EntitySet="Material" />
